@@ -1,0 +1,847 @@
+package com.iudigital.fun.funcionarios.test;
+
+import com.iudigital.fun.funcionarios.controller.FuncionarioController;
+import com.iudigital.fun.funcionarios.domain.Funcionario;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class Main extends javax.swing.JFrame {
+
+    private final FuncionarioController funfuncionarioController;
+    private final static String[] COLUMNS = {"ID", "TIPO IDENTIFICACION", "NUMERO IDENTIFICACION", "NOMBRES", "APELLIDOS", "ESTADO CIVIL", "SEXO", "DIRECCION", "TELEFONO", "FECHA NACIMIENTO", "ID GRUPO FAMILIAR", "ID ACADEMIA"};
+    private final static String SELECCIONE = "-SELECCIONE-";
+
+    /**
+     * Creates new form Main
+     */
+    public Main() {
+        initComponents();
+        txtFunId.setEditable(false);
+        funfuncionarioController = new FuncionarioController();
+        listFuns();
+        addListener();
+    }
+
+    private void listFuns() {
+        jComboBoxFuns.removeAllItems();
+        Funcionario funcionario1 = new Funcionario();
+        funcionario1.setNombres(SELECCIONE);
+        funcionario1.setApellidos("");
+        jComboBoxFuns.addItem(funcionario1);
+
+        DefaultTableModel defaultTableModel = new DefaultTableModel();
+        for (String COLUMN : COLUMNS) {
+            defaultTableModel.addColumn(COLUMN);
+        }
+        tblFuns.setModel(defaultTableModel);
+
+        try {
+            List<Funcionario> funcionarios = funfuncionarioController.obtenerFuncionarios();
+            if (funcionarios.isEmpty()) {
+                return;
+            }
+            defaultTableModel.setRowCount(funcionarios.size());
+            int row = 0;
+            for (Funcionario funcionario : funcionarios) {
+                defaultTableModel.setValueAt(funcionario.getId(), row, 0);
+                defaultTableModel.setValueAt(funcionario.getTipoIdentificacion(), row, 1);
+                defaultTableModel.setValueAt(funcionario.getNumeroIdentificacion(), row, 2);
+                defaultTableModel.setValueAt(funcionario.getNombres(), row, 3);
+                defaultTableModel.setValueAt(funcionario.getApellidos(), row, 4);
+                defaultTableModel.setValueAt(funcionario.getEstadoCivil(), row, 5);
+                defaultTableModel.setValueAt(funcionario.getSexo(), row, 6);
+                defaultTableModel.setValueAt(funcionario.getDireccion(), row, 7);
+                defaultTableModel.setValueAt(funcionario.getTelefono(), row, 8);
+                defaultTableModel.setValueAt(funcionario.getFechaNacimiento(), row, 9);
+                defaultTableModel.setValueAt(funcionario.getIdGrupo(), row, 10);
+                defaultTableModel.setValueAt(funcionario.getIdAcademia(), row, 11);
+                row++;
+
+                jComboBoxFuns.addItem(funcionario);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void addListener() {
+        jComboBoxFuns.addItemListener(event -> {
+            Funcionario selectedFun = (Funcionario) event.getItem();
+            if (selectedFun.getNombres().equals(SELECCIONE)) {
+                txtFunId.setText("");
+                jTextFieldTipoEdit.setText("");
+                jTextFieldNumeroEdit.setText("");
+                jTextFieldNombreEdit.setText("");
+                jTextFieldApellidoEdit.setText("");
+                jTextFieldEstadoEdit.setText("");
+                jTextFieldSexoEdit.setText("");
+                jTextFieldDireccionEdit.setText("");
+                jTextFieldTeleEdit.setText("");
+                jTextFieldFechaEdit.setText("");
+                jTextFieldGrupoEdit.setText("");
+                jTextFieldAcademiaEdit.setText("");
+            } else {
+                txtFunId.setText(String.valueOf(selectedFun.getId()));
+                jTextFieldTipoEdit.setText(selectedFun.getTipoIdentificacion());
+                jTextFieldNumeroEdit.setText(selectedFun.getNumeroIdentificacion());
+                jTextFieldNombreEdit.setText(selectedFun.getNombres());
+                jTextFieldApellidoEdit.setText(selectedFun.getApellidos());
+                jTextFieldEstadoEdit.setText(selectedFun.getEstadoCivil());
+                jTextFieldSexoEdit.setText(selectedFun.getSexo());
+                jTextFieldDireccionEdit.setText(selectedFun.getDireccion());
+                jTextFieldTeleEdit.setText(selectedFun.getTelefono());
+                jTextFieldFechaEdit.setText(selectedFun.getFechaNacimiento());
+                jTextFieldGrupoEdit.setText(String.valueOf(selectedFun.getIdGrupo()));
+                jTextFieldAcademiaEdit.setText(String.valueOf(selectedFun.getIdAcademia()));
+            }
+        });
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblFuns = new javax.swing.JTable();
+        jPFun = new javax.swing.JPanel();
+        jLabelTipo = new javax.swing.JLabel();
+        jLabelNumero = new javax.swing.JLabel();
+        jLabelNombre = new javax.swing.JLabel();
+        jLabelApellido = new javax.swing.JLabel();
+        jLabelEstado = new javax.swing.JLabel();
+        jLabelSexo = new javax.swing.JLabel();
+        jLabelDireccion = new javax.swing.JLabel();
+        jLabelTele = new javax.swing.JLabel();
+        jLabelFecha = new javax.swing.JLabel();
+        jLabelGrupo = new javax.swing.JLabel();
+        jLabelAcademia = new javax.swing.JLabel();
+        jTextFieldTipo = new javax.swing.JTextField();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jTextFieldApellido = new javax.swing.JTextField();
+        jTextFieldEstado = new javax.swing.JTextField();
+        jTextFieldSexo = new javax.swing.JTextField();
+        jTextFieldDireccion = new javax.swing.JTextField();
+        jTextFieldTele = new javax.swing.JTextField();
+        jTextFieldFecha = new javax.swing.JTextField();
+        jTextFieldGrupo = new javax.swing.JTextField();
+        jTextFieldAcademia = new javax.swing.JTextField();
+        jTextFieldNumero = new javax.swing.JTextField();
+        jButtonCrear = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPFun1 = new javax.swing.JPanel();
+        jLabelFuncionarios = new javax.swing.JLabel();
+        jComboBoxFuns = new javax.swing.JComboBox<>();
+        jLabelFunId = new javax.swing.JLabel();
+        txtFunId = new javax.swing.JTextField();
+        jLabelTipoEdit = new javax.swing.JLabel();
+        jTextFieldTipoEdit = new javax.swing.JTextField();
+        jLabelNumeroEdit = new javax.swing.JLabel();
+        jTextFieldNumeroEdit = new javax.swing.JTextField();
+        jLabelNombreEdit = new javax.swing.JLabel();
+        jTextFieldNombreEdit = new javax.swing.JTextField();
+        jLabelApellidoEdit = new javax.swing.JLabel();
+        jTextFieldApellidoEdit = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldEstadoEdit = new javax.swing.JTextField();
+        jLabelSexoEdit = new javax.swing.JLabel();
+        jTextFieldSexoEdit = new javax.swing.JTextField();
+        jLabelDireccionEdit = new javax.swing.JLabel();
+        jTextFieldDireccionEdit = new javax.swing.JTextField();
+        jLabelTeleEdit = new javax.swing.JLabel();
+        jTextFieldTeleEdit = new javax.swing.JTextField();
+        jLabelFechaEdit = new javax.swing.JLabel();
+        jTextFieldFechaEdit = new javax.swing.JTextField();
+        jLabelGrupoEdit = new javax.swing.JLabel();
+        jTextFieldGrupoEdit = new javax.swing.JTextField();
+        jLabelAcademiaEdit = new javax.swing.JLabel();
+        jTextFieldAcademiaEdit = new javax.swing.JTextField();
+        btnActualizar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("GESTION DE FUNCIONARIOS");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, 20));
+
+        tblFuns.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tblFuns);
+
+        jPFun.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingrese los campos:"));
+
+        jLabelTipo.setText("Tipo de identificación");
+
+        jLabelNumero.setText("Numero de identificación");
+
+        jLabelNombre.setText("Nombres");
+
+        jLabelApellido.setText("Apellidos");
+
+        jLabelEstado.setText("Estado civil");
+
+        jLabelSexo.setText("Sexo");
+
+        jLabelDireccion.setText("Dirección");
+
+        jLabelTele.setText("Telefono");
+
+        jLabelFecha.setText("F. Nacimiento (dd/mm/yyyy)");
+
+        jLabelGrupo.setText("ID_Grupo");
+
+        jLabelAcademia.setText("ID_Academia");
+
+        jTextFieldTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTipoActionPerformed(evt);
+            }
+        });
+
+        jButtonCrear.setText("Guardar");
+        jButtonCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCrearActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPFunLayout = new javax.swing.GroupLayout(jPFun);
+        jPFun.setLayout(jPFunLayout);
+        jPFunLayout.setHorizontalGroup(
+            jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPFunLayout.createSequentialGroup()
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPFunLayout.createSequentialGroup()
+                        .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPFunLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPFunLayout.createSequentialGroup()
+                                        .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabelTipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jTextFieldTipo))
+                                        .addGap(40, 40, 40)
+                                        .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelNombre)
+                                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPFunLayout.createSequentialGroup()
+                                        .addComponent(jLabelNumero)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabelSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPFunLayout.createSequentialGroup()
+                                        .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jTextFieldSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(35, 35, 35))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPFunLayout.createSequentialGroup()
+                                .addGap(159, 159, 159)
+                                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelFecha)
+                                    .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelApellido)
+                            .addComponent(jLabelGrupo)
+                            .addComponent(jTextFieldGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelDireccion)
+                            .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelAcademia)
+                            .addComponent(jTextFieldAcademia, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldTele, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTele, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelEstado)))
+                    .addGroup(jPFunLayout.createSequentialGroup()
+                        .addGap(266, 266, 266)
+                        .addComponent(jButtonCrear)))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        jPFunLayout.setVerticalGroup(
+            jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPFunLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelTipo)
+                    .addComponent(jLabelNombre)
+                    .addComponent(jLabelApellido)
+                    .addComponent(jLabelEstado))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNumero)
+                    .addComponent(jLabelDireccion)
+                    .addComponent(jLabelTele)
+                    .addComponent(jLabelSexo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTele, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFecha)
+                    .addComponent(jLabelGrupo)
+                    .addComponent(jLabelAcademia))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPFunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldAcademia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCrear)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPFun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPFun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Crear Funcionario", jPanel1);
+
+        jPFun1.setBorder(javax.swing.BorderFactory.createTitledBorder("Editar campos:"));
+
+        jLabelFuncionarios.setText("FUNCIONARIOS:");
+
+        jLabelFunId.setText("ID");
+
+        jLabelTipoEdit.setText("Tipo Id.");
+
+        jLabelNumeroEdit.setText("Numero de Id.");
+
+        jLabelNombreEdit.setText("Nombres");
+
+        jLabelApellidoEdit.setText("Apellidos");
+
+        jLabel2.setText("Estado Civil");
+
+        jLabelSexoEdit.setText("Sexo");
+
+        jLabelDireccionEdit.setText("Direccion");
+
+        jLabelTeleEdit.setText("Telefono");
+
+        jLabelFechaEdit.setText("F. Nacimiento (dd/mm/yyyy)");
+
+        jLabelGrupoEdit.setText("Grupo Familiar");
+
+        jLabelAcademiaEdit.setText("ID Academia");
+
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPFun1Layout = new javax.swing.GroupLayout(jPFun1);
+        jPFun1.setLayout(jPFun1Layout);
+        jPFun1Layout.setHorizontalGroup(
+            jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPFun1Layout.createSequentialGroup()
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPFun1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxFuns, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelFunId, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabelFechaEdit)
+                                    .addComponent(jLabelSexoEdit)
+                                    .addComponent(jLabelNombreEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFunId)
+                                    .addComponent(jTextFieldNombreEdit)
+                                    .addComponent(jTextFieldSexoEdit)
+                                    .addComponent(jTextFieldFechaEdit))))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextFieldGrupoEdit, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jTextFieldDireccionEdit, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jTextFieldApellidoEdit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                                                .addComponent(jLabelTipoEdit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextFieldTipoEdit, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(jLabelApellidoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabelDireccionEdit)))
+                            .addComponent(jLabelGrupoEdit))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldNumeroEdit)
+                            .addComponent(jLabelNumeroEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextFieldEstadoEdit)
+                            .addComponent(jLabelTeleEdit)
+                            .addComponent(jTextFieldTeleEdit)
+                            .addComponent(jLabelAcademiaEdit)
+                            .addComponent(jTextFieldAcademiaEdit)))
+                    .addGroup(jPFun1Layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(btnActualizar)
+                        .addGap(102, 102, 102)
+                        .addComponent(btnEliminar)))
+                .addContainerGap(101, Short.MAX_VALUE))
+        );
+        jPFun1Layout.setVerticalGroup(
+            jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPFun1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelFuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxFuns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFunId, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTipoEdit)
+                    .addComponent(jLabelNumeroEdit))
+                .addGap(4, 4, 4)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFunId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTipoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNumeroEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNombreEdit)
+                    .addComponent(jLabelApellidoEdit)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldNombreEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldApellidoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldEstadoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelSexoEdit)
+                    .addComponent(jLabelDireccionEdit)
+                    .addComponent(jLabelTeleEdit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldSexoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldDireccionEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTeleEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFechaEdit)
+                    .addComponent(jLabelGrupoEdit)
+                    .addComponent(jLabelAcademiaEdit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldFechaEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldGrupoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldAcademiaEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGroup(jPFun1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnEliminar))
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPFun1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPFun1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Editar Funcionario", jPanel2);
+
+        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 630, 470));
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldTipoActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if (txtFunId.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un Funcionario");
+            txtFunId.requestFocus();
+            return;
+        }
+        if (jTextFieldTipoEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Tipo de Identificacion");
+            jTextFieldTipoEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldNumeroEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Numero de Identificacion");
+            jTextFieldNumeroEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldNombreEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Nombres");
+            jTextFieldNombreEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldApellidoEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Apellidos");
+            jTextFieldApellidoEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldEstadoEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Estado civil");
+            jTextFieldEstadoEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldSexoEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Sexo");
+            jTextFieldSexoEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldDireccionEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Direccion");
+            jTextFieldDireccionEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldTeleEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Numero de Telefono");
+            jTextFieldTeleEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldFechaEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Fecha de nacimiento");
+            jTextFieldFechaEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldGrupoEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Grupo Familiar");
+            jTextFieldGrupoEdit.requestFocus();
+            return;
+        }
+        if (jTextFieldAcademiaEdit.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Informacion Academica");
+            jTextFieldAcademiaEdit.requestFocus();
+            return;
+        }
+
+        Funcionario funcionario = new Funcionario();
+        funcionario.setId(Integer.parseInt(txtFunId.getText().trim()));
+        funcionario.setTipoIdentificacion(jTextFieldTipoEdit.getText().trim());
+        funcionario.setNumeroIdentificacion(jTextFieldNumeroEdit.getText().trim());
+        funcionario.setNombres(jTextFieldNombreEdit.getText().trim());
+        funcionario.setApellidos(jTextFieldApellidoEdit.getText().trim());
+        funcionario.setEstadoCivil(jTextFieldEstadoEdit.getText().trim());
+        funcionario.setSexo(jTextFieldSexoEdit.getText().trim());
+        funcionario.setDireccion(jTextFieldDireccionEdit.getText().trim());
+        funcionario.setTelefono(jTextFieldTeleEdit.getText().trim());
+        funcionario.setFechaNacimiento(jTextFieldFechaEdit.getText().trim());
+        funcionario.setIdGrupo(Integer.parseInt(jTextFieldGrupoEdit.getText().trim()));
+        funcionario.setIdAcademia(Integer.parseInt(jTextFieldAcademiaEdit.getText().trim()));
+
+        int opt = JOptionPane.showConfirmDialog(null, "Confirmar Actualizacion de datos:", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (opt == 0) {
+            try {
+                funfuncionarioController.actualizarFuncionario(Integer.parseInt(txtFunId.getText()), funcionario);
+                txtFunId.setText("");
+                jTextFieldTipoEdit.setText("");
+                jTextFieldNumeroEdit.setText("");
+                jTextFieldNombreEdit.setText("");
+                jTextFieldApellidoEdit.setText("");
+                jTextFieldEstadoEdit.setText("");
+                jTextFieldSexoEdit.setText("");
+                jTextFieldDireccionEdit.setText("");
+                jTextFieldTeleEdit.setText("");
+                jTextFieldFechaEdit.setText("");
+                jTextFieldGrupoEdit.setText("");
+                jTextFieldAcademiaEdit.setText("");
+                listFuns();
+                JOptionPane.showMessageDialog(null, "Actualización exitosa");
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error, no se ha actualizado el funcionario");
+            }
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void jButtonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearActionPerformed
+
+        if (jTextFieldTipo.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Tipo de Identificacion");
+            jTextFieldTipo.requestFocus();
+            return;
+        }
+        if (jTextFieldNumero.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Numero de Identificacion");
+            jTextFieldNumero.requestFocus();
+            return;
+        }
+        if (jTextFieldNombre.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Nombres");
+            jTextFieldNombre.requestFocus();
+            return;
+        }
+        if (jTextFieldApellido.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Apellidos");
+            jTextFieldApellido.requestFocus();
+            return;
+        }
+        if (jTextFieldEstado.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Estado civil");
+            jTextFieldEstado.requestFocus();
+            return;
+        }
+        if (jTextFieldSexo.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Sexo");
+            jTextFieldSexo.requestFocus();
+            return;
+        }
+        if (jTextFieldDireccion.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Direccion");
+            jTextFieldDireccion.requestFocus();
+            return;
+        }
+        if (jTextFieldTele.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Numero de Telefono");
+            jTextFieldTele.requestFocus();
+            return;
+        }
+        if (jTextFieldFecha.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Fecha de nacimiento");
+            jTextFieldFecha.requestFocus();
+            return;
+        }
+        if (jTextFieldGrupo.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Grupo Familiar");
+            jTextFieldGrupo.requestFocus();
+            return;
+        }
+        if (jTextFieldAcademia.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Digite Informacion Academica");
+            jTextFieldAcademia.requestFocus();
+            return;
+        }
+
+        try {
+            Funcionario funcionario = new Funcionario();
+            funcionario.setTipoIdentificacion(jTextFieldTipo.getText().trim());
+            funcionario.setNumeroIdentificacion(jTextFieldNumero.getText().trim());
+            funcionario.setNombres(jTextFieldNombre.getText().trim());
+            funcionario.setApellidos(jTextFieldApellido.getText().trim());
+            funcionario.setEstadoCivil(jTextFieldEstado.getText().trim());
+            funcionario.setSexo(jTextFieldSexo.getText().trim());
+            funcionario.setDireccion(jTextFieldDireccion.getText().trim());
+            funcionario.setTelefono(jTextFieldTele.getText().trim());
+            funcionario.setFechaNacimiento(jTextFieldFecha.getText().trim());
+            funcionario.setIdGrupo(Integer.parseInt(jTextFieldGrupo.getText().trim()));
+            funcionario.setIdAcademia(Integer.parseInt(jTextFieldAcademia.getText().trim()));
+
+            funfuncionarioController.crear(funcionario);
+
+            jTextFieldTipo.setText("");
+            jTextFieldNumero.setText("");
+            jTextFieldNombre.setText("");
+            jTextFieldApellido.setText("");
+            jTextFieldEstado.setText("");
+            jTextFieldSexo.setText("");
+            jTextFieldDireccion.setText("");
+            jTextFieldTele.setText("");
+            jTextFieldFecha.setText("");
+            jTextFieldGrupo.setText("");
+            jTextFieldAcademia.setText("");
+
+            listFuns();
+            JOptionPane.showMessageDialog(null, "Funcionario Creado exitosamente");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error, no se ha creado el funcionario");
+        }
+    }//GEN-LAST:event_jButtonCrearActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        if (txtFunId.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Selecciona un Funcionario");
+            txtFunId.requestFocus();
+            return;
+        }
+        int opt = JOptionPane.showConfirmDialog(null, "¿Esta seguro? Esta acción es irreversible", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (opt == 0) {
+            try {
+                funfuncionarioController.eliminarFuncionario(Integer.parseInt(txtFunId.getText()));
+                txtFunId.setText("");
+                jTextFieldTipoEdit.setText("");
+                jTextFieldNumeroEdit.setText("");
+                jTextFieldNombreEdit.setText("");
+                jTextFieldApellidoEdit.setText("");
+                jTextFieldEstadoEdit.setText("");
+                jTextFieldSexoEdit.setText("");
+                jTextFieldDireccionEdit.setText("");
+                jTextFieldTeleEdit.setText("");
+                jTextFieldFechaEdit.setText("");
+                jTextFieldGrupoEdit.setText("");
+                jTextFieldAcademiaEdit.setText("");
+                listFuns();
+                JOptionPane.showMessageDialog(null, "Se ha eliminado exitosamente");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "No se ha podido eliminar");
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Window".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Main().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton jButtonCrear;
+    private javax.swing.JComboBox<Funcionario> jComboBoxFuns;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelAcademia;
+    private javax.swing.JLabel jLabelAcademiaEdit;
+    private javax.swing.JLabel jLabelApellido;
+    private javax.swing.JLabel jLabelApellidoEdit;
+    private javax.swing.JLabel jLabelDireccion;
+    private javax.swing.JLabel jLabelDireccionEdit;
+    private javax.swing.JLabel jLabelEstado;
+    private javax.swing.JLabel jLabelFecha;
+    private javax.swing.JLabel jLabelFechaEdit;
+    private javax.swing.JLabel jLabelFunId;
+    private javax.swing.JLabel jLabelFuncionarios;
+    private javax.swing.JLabel jLabelGrupo;
+    private javax.swing.JLabel jLabelGrupoEdit;
+    private javax.swing.JLabel jLabelNombre;
+    private javax.swing.JLabel jLabelNombreEdit;
+    private javax.swing.JLabel jLabelNumero;
+    private javax.swing.JLabel jLabelNumeroEdit;
+    private javax.swing.JLabel jLabelSexo;
+    private javax.swing.JLabel jLabelSexoEdit;
+    private javax.swing.JLabel jLabelTele;
+    private javax.swing.JLabel jLabelTeleEdit;
+    private javax.swing.JLabel jLabelTipo;
+    private javax.swing.JLabel jLabelTipoEdit;
+    private javax.swing.JPanel jPFun;
+    private javax.swing.JPanel jPFun1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextFieldAcademia;
+    private javax.swing.JTextField jTextFieldAcademiaEdit;
+    private javax.swing.JTextField jTextFieldApellido;
+    private javax.swing.JTextField jTextFieldApellidoEdit;
+    private javax.swing.JTextField jTextFieldDireccion;
+    private javax.swing.JTextField jTextFieldDireccionEdit;
+    private javax.swing.JTextField jTextFieldEstado;
+    private javax.swing.JTextField jTextFieldEstadoEdit;
+    private javax.swing.JTextField jTextFieldFecha;
+    private javax.swing.JTextField jTextFieldFechaEdit;
+    private javax.swing.JTextField jTextFieldGrupo;
+    private javax.swing.JTextField jTextFieldGrupoEdit;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldNombreEdit;
+    private javax.swing.JTextField jTextFieldNumero;
+    private javax.swing.JTextField jTextFieldNumeroEdit;
+    private javax.swing.JTextField jTextFieldSexo;
+    private javax.swing.JTextField jTextFieldSexoEdit;
+    private javax.swing.JTextField jTextFieldTele;
+    private javax.swing.JTextField jTextFieldTeleEdit;
+    private javax.swing.JTextField jTextFieldTipo;
+    private javax.swing.JTextField jTextFieldTipoEdit;
+    private javax.swing.JTable tblFuns;
+    private javax.swing.JTextField txtFunId;
+    // End of variables declaration//GEN-END:variables
+}
